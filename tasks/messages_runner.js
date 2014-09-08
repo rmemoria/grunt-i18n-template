@@ -187,7 +187,7 @@ exports.run = function(grunt, options, files) {
 		var data = [];
 
 		keys.forEach(function(key) {
-			data.push([key, key]);
+			data.push([key, '']);
 		});
 
 		// generate csv

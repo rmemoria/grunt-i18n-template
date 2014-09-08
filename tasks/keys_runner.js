@@ -54,7 +54,7 @@ exports.run = function(grunt, options, files, done) {
 		var found = false;
 		for (var key in keys) {
 			var msg = keys[key];
-			if (msg !== key) {
+			if (msg !== '' && msg !== key) {
 				diff[key] = msg;
 				found = true;
 			}
