@@ -1,0 +1,7 @@
+[4mRunning "i18n_template:test" (i18n_template) task[24m
+Reading keys from test/fixtures/form.html
+Reading keys from test/fixtures/main.html
+saved tmp/messages/messages_en.csv
+saved tmp/messages/messages_pt_BR.csv
+
+[32mDone, without errors.[39m
