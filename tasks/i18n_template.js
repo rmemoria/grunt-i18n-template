@@ -28,7 +28,8 @@ module.exports = function(grunt) {
 			forceRefresh: false,
 			skipKeyRunner: false,
 			skipMessagesRunner: false,
-			basePath: undefined
+			basePath: undefined,
+			transformDestFile: undefined
 		});
 
 		var files = this.files;

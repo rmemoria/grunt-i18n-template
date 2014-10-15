@@ -175,6 +175,12 @@ Default value: `false`
 
 By default, every time you run the task, it checks the templates searching for new messages. If new messages are found, the the CSV files will be updated. If you are in development time, you may skip this step, making the generation of the destination files faster.
 
+#### options.transformDestFile
+Type: `function`
+Default value: `undefined`
+
+Allows you to change the destination file name. By default, the destination file is the destination path + (template file path - the base path).
+
 ### Usage Examples
 
 ####Development and production mode

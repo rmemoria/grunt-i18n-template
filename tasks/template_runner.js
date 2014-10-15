@@ -57,8 +57,8 @@ exports.run = function(grunt, options, files) {
 			file.src.forEach(function(filepath) {
 
 				// calculate destination file
-				var destfile;
-				// has base path ?
+				var destfile = getDestinationFile(filepath, locale, destpath);
+/*				// has base path ?
 				if (options.basePath && filepath.indexOf(options.basePath) === 0) {
 					destfile = filepath.substring(options.basePath.length + 1, filepath.length);
 				}
@@ -66,12 +66,34 @@ exports.run = function(grunt, options, files) {
 					destfile = filepath;
 				}
 				destfile = path.join(destpath, locale, destfile);
-
+*/
 				if (isNecessaryToRun(filepath, destfile)) {
 					parseTemplateFile(filepath, destfile);
 				}
 			});
 		});
+	}
+
+	function getDestinationFile(filepath, locale, destpath) {
+		var destfile;
+		// has base path ?
+		if (options.basePath && filepath.indexOf(options.basePath) === 0) {
+			destfile = filepath.substring(options.basePath.length + 1, filepath.length);
+		}
+		else {
+			destfile = filepath;
+		}
+		destfile = path.join(destpath, locale, destfile);
+
+		if (options.transformDestFile) {
+			if (typeof options.transformDestFile !== 'function') {
+				throw "options.transformDestFile must be a function";
+			}
+
+			destfile = options.transformDestFile(destfile);
+		}
+
+		return destfile;
 	}
 
 	/**
