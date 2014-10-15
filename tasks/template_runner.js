@@ -100,18 +100,20 @@ exports.run = function(grunt, options, files) {
 		// read keys from template
 		var keys = template.match(/\[\[.+?\]\]/ig);
 
-		keys.forEach(function(key) {
-			key = key.substring(2, key.length-2);
-			var msg;
-			if (msgs)  {
-				msg = msgs[key];
-			}
-			if ((msg === undefined) || (msg === '')) {
-				msg = key;
-			}
-			msg = commons.escapeHTML(msg);
-			template = template.split('[[' + key + ']]').join(msg);
-		});
+		if (keys) {
+			keys.forEach(function(key) {
+				key = key.substring(2, key.length-2);
+				var msg;
+				if (msgs)  {
+					msg = msgs[key];
+				}
+				if ((msg === undefined) || (msg === '')) {
+					msg = key;
+				}
+				msg = commons.escapeHTML(msg);
+				template = template.split('[[' + key + ']]').join(msg);
+			});
+		}
 
 		grunt.log.writeln('Generating ' + destfile);
 		grunt.file.mkdir(path.dirname(destfile));

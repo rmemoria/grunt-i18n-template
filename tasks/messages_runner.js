@@ -74,12 +74,14 @@ exports.run = function(grunt, options, files) {
 		var template = grunt.file.read(filepath);
 
 		var templkeys = template.match(/\[\[.+?\]\]/ig);
-		templkeys.forEach(function(item) {
-			item = item.substring(2, item.length-2);
-			if (keys.indexOf(item) === -1) {
-				keys.push(item);
-			}
-		});
+		if (templkeys) {
+			templkeys.forEach(function(item) {
+				item = item.substring(2, item.length-2);
+				if (keys.indexOf(item) === -1) {
+					keys.push(item);
+				}
+			});
+		}
 	}
 
 	/**
@@ -179,7 +181,7 @@ exports.run = function(grunt, options, files) {
 			grunt.file.delete(filepath);
 		}
 
-		if (!options.defaultLocale) {
+		if ((!options.defaultLocale) || (context.keys.length === 0)) {
 			return;
 		}
 
