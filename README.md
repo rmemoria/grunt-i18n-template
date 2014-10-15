@@ -179,7 +179,11 @@ By default, every time you run the task, it checks the templates searching for n
 Type: `function`
 Default value: `undefined`
 
-Allows you to change the destination file name. By default, the destination file is the destination path + (template file path - the base path).
+Allows you to change the destination file name. By default, the destination file is the destination path + (template file path - the base path). The example below transform a file name in the format `path\file.template.ext` to `path\file.ext`:
+
+    transformDestFile: function(filepath) {
+      return filepath.replace('.template.', '.');
+    }
 
 ### Usage Examples
 
@@ -271,4 +275,8 @@ I'm still working on these bullets, and advises are welcome:
 Just want to express my gratitude to the authors and contributors of the String.js library (http://stringjs.com/), that helped me a lot on synchronous CSV parsing and HTML escaping.
 
 ## Release History
-_(Nothing yet)_
+
+####version 0.1.4
+* [Bug] Error when template has no message;
+* [Feature] New option transforDestFile, to change the destination file name;
+
