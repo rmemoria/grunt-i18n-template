@@ -179,7 +179,7 @@ By default, every time you run the task, it checks the templates searching for n
 Type: `function`
 Default value: `undefined`
 
-Allows you to change the destination file name. By default, the destination file is the destination path + (template file path - the base path). The example below transform a file name in the format `path\file.template.ext` to `path\file.ext`:
+Allows you to change the destination file name. By default, the destination file is the destination path + (template file path - the base path). The example below transforms a file name in the format `path\file.template.ext` to `path\file.ext`:
 
     transformDestFile: function(filepath) {
       return filepath.replace('.template.', '.');
