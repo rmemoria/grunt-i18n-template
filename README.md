@@ -3,7 +3,7 @@
 > Automate the generation of translated HTML files from templates
 
 ##Goal
-Translation task for grunt - Parse template files (usually .html files) creating a copy of them for each configured locale, replacing the messages by messages stored in CSV files.
+Translation task for grunt - Parse template files (usually .html files) creating a copy of them for each configured language, replacing the messages by messages stored in CSV files.
 
 In a nutshell, suppose you have the following template files:
 
@@ -25,7 +25,7 @@ en/**/*.html
 pt_BR/**/*.html
 ru/**/*.html
 ```
-with the messages inside the template replaced by the messages found in the CSV files.
+with the messages inside the template being replaced by the messages found in the CSV files.
 
 ## Why another i18n task?
 
@@ -126,6 +126,13 @@ For example, in messages_pt_BR.csv:
 ####4. Update the message files
 When the CSV files are returned from translation, just replace them and run grunt again. The task will generate new files from the templates and the translated messages. That's all!
 
+###Execution steps
+The execution is done in 3 steps:
+
+1. **Key runner** - Check the file `keys.csv` for changes in the message keys used in templates and CSV files. If so, update both template and CSV files with the new key;
+2. **Messages runner** - Parse all template files and generate (or update, if it exists) the CSV files. It's created/update one CSV file for each supported locale in the system, except for the default language (the one used in templates). For the default language, a new keys.csv containing its key is generated. Old messages, i.e, messages not found in templates, are removed from CSV files only if there is no translated message (useful during development, when you constantly change the messages in template);
+3.  **Template runner** - This is the last step. The target files are generated from the template files and its messages stored in CSV files. A new folder with the name of  the `language` is created in the destination folder for each supported language, and it's generated one file for each template found.
+
 ### Options
 
 #### options.locales
@@ -175,6 +182,12 @@ Default value: `false`
 
 By default, every time you run the task, it checks the templates searching for new messages. If new messages are found, the the CSV files will be updated. If you are in development time, you may skip this step, making the generation of the destination files faster.
 
+#### options.skipTemplateRunner
+Type: `Boolean`
+Default value: `false`
+
+Skip the generation of the destination files from its template and CSV files.
+
 #### options.transformDestFile
 Type: `function`
 Default value: `undefined`
@@ -183,6 +196,17 @@ Allows you to change the destination file name. By default, the destination file
 
     transformDestFile: function(filepath) {
       return filepath.replace('.template.', '.');
+    }
+
+#### options.jsonPath
+Type: `string`
+Default value: `undefined`
+
+If a folder is specified, a JSON files will be generated for each CSV file. The JSON file name will be the same used in the CSV file names, but with the JSON extension. If jsonPath is not informed, the JSON files won't be generated. These JSON files are useful when integrating with other tools or using the messages in the server side of a web app. The main structure of the JSON file is a root object containing the key messages as properties and the translated message as the string value of the property. Example of the file `messages_pt-BR.json`:
+
+    {
+        "Invalid e-mail and/or password": "e-mail e/ou senha incorretos",
+        "Not implemented": "Não implementado"
     }
 
 ### Usage Examples
@@ -278,5 +302,11 @@ Just want to express my gratitude to the authors and contributors of the String.
 
 ####version 0.1.4
 * [Bug] Error when template has no message;
-* [Feature] New option transforDestFile, to change the destination file name;
+* [Feature] New option `transforDestFile` - Function to change the destination file name and path;
+
+####version 0.1.5
+* [Feature] New option `jsonPath` - Generation of JSON message files from CSV files;
+* [Feature] New option `skipTemplateRunner` - Don't run the step to generate the files from template;
+* [Improvement] Erasing empty messages from CSV files if messages are not found in templates (Useful during development, when key messages change constantly);
+
 
