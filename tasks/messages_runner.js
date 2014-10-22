@@ -1,5 +1,5 @@
 /**
- * Update the messages based on the keys from the templates
+ * Update the message files based on the keys from the templates
  *
  * @author Ricardo Memoria
  */
@@ -93,25 +93,55 @@ exports.run = function(grunt, options, files) {
 	 */
 	function updateMessageFiles() {
 		options.locales.forEach(function(locale) {
+			var msgs;
+
 			// is the default locate ?
 			if (locale === options.defaultLocale) {
-				// so don't generate the file
 				return;
 			}
-
 			var messagefile = commons.messagesFilename(options, locale);
 			if (!grunt.file.exists(messagefile)) {
 				console.log('file will be created: ' + messagefile);
 			}
 
 			var keys = context.keys;
-			var msgs = commons.loadMessages(grunt, messagefile);
+			msgs = commons.loadMessages(grunt, messagefile);
 
 			if (updateMessagesKeys(messagefile, keys, msgs)) {
 				grunt.log.writeln('Creating/Updating ' + messagefile);
 				commons.saveMessages(grunt, messagefile, msgs);
 			}
+
+			generateJsonMessages(locale, msgs);
 		});
+	}
+
+	/**
+	 * Generate the messages in json format
+	 * @param  {string} locale Contain the locale name
+	 * @param  {string} keys   [description]
+	 * @return {[type]}        [description]
+	 */
+	function generateJsonMessages(locale, msgs) {
+		// json path was specified?
+		if (typeof options.jsonPath !== 'string') {
+			return;
+		}
+
+		var filepath = path.join(options.jsonPath, options.messagesFilePrefix + locale + '.json');
+		grunt.log.writeln('Generating JSON file ' + filepath);
+		if (grunt.file.exists(filepath)) {
+			grunt.file.delete(filepath);
+		}
+
+		var data = {};
+		context.keys.forEach(function(key) {
+			var msg = msgs[key];
+			data[key] = msg;
+		});
+
+		var s = JSON.stringify(data, null, 4);
+		grunt.file.write(filepath, s);
 	}
 
 	/**
@@ -133,6 +163,23 @@ exports.run = function(grunt, options, files) {
 				emptylst.push({file: messagefile, key: key});
 			}
 		});
+
+		// remove empty messages that are not in the key
+		var toRemove = [];
+		for (var key in msgs) {
+			if ((msgs[key] === '') && (keys[key] === undefined)) {
+				toRemove.push(key);
+			}
+		}
+
+		toRemove.forEach(function(key) {
+			delete msgs[key];
+		});
+
+		// was changed ?
+		if (toRemove.length > 0) {
+			changed = true;
+		}
 
 		return changed;
 	}

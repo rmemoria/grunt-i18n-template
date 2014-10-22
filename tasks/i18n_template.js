@@ -24,12 +24,20 @@ module.exports = function(grunt) {
 		var options = this.options({
 			locales: ['en'],
 			defaultLocale: 'en',
+			// prefix 
 			messagesFilePrefix: 'messages_',
+			// force the generation of all templates regardless of the file timestamp
 			forceRefresh: false,
+			// don't check for key changes in keys.csv
 			skipKeyRunner: false,
+			// don't generate the csv and json messages
 			skipMessagesRunner: false,
+			// don't generate templates
+			skipTemplateRunner: false,
+			// the path that will be striped off from the template folder
 			basePath: undefined,
-			transformDestFile: undefined
+			// specify the folder where json files will be generated from csv messages
+			jsonPath: undefined,
 		});
 
 		var files = this.files;
@@ -42,7 +50,9 @@ module.exports = function(grunt) {
 			messagesRunner.run(grunt, options, files);
 		}
 
-		templateRunner.run(grunt, options, files);
+		if (!options.skipTemplateRunner) {
+			templateRunner.run(grunt, options, files);
+		}
 	});
 
 };
