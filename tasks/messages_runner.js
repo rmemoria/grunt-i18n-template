@@ -167,7 +167,7 @@ exports.run = function(grunt, options, files) {
 		// remove empty messages that are not in the key
 		var toRemove = [];
 		for (var key in msgs) {
-			if ((msgs[key] === '') && (keys[key] === undefined)) {
+			if ((msgs[key] === '') && (keys.indexOf(key) === -1)) {
 				toRemove.push(key);
 			}
 		}
