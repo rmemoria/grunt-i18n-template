@@ -310,3 +310,5 @@ Just want to express my gratitude to the authors and contributors of the String.
 * [Improvement] Erasing empty messages from CSV files if messages are not found in templates (Useful during development, when key messages change constantly);
 
 
+####version 0.1.6
+* Fixing small bugs
