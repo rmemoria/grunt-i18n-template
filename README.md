@@ -209,6 +209,13 @@ If a folder is specified, a JSON files will be generated for each CSV file. The 
         "Not implemented": "Não implementado"
     }
 
+
+#### options.removeEmptyKeys
+Type: `boolean`
+Default value: `true`
+
+If true (default value), empty keys that are found in the CSV files and not found in the templates, are removed from the CSV files.
+
 ### Usage Examples
 
 ####Development and production mode
@@ -300,15 +307,17 @@ Just want to express my gratitude to the authors and contributors of the String.
 
 ## Release History
 
-####version 0.1.4
-* [Bug] Error when template has no message;
-* [Feature] New option `transforDestFile` - Function to change the destination file name and path;
+####version 0.1.7
+* [Feature] New option 'removeEmptyKeys' - Remove keys in CSV file that are empty and not found in the templates;
+
+####version 0.1.6
+* Fixing small bugs
 
 ####version 0.1.5
 * [Feature] New option `jsonPath` - Generation of JSON message files from CSV files;
 * [Feature] New option `skipTemplateRunner` - Don't run the step to generate the files from template;
 * [Improvement] Erasing empty messages from CSV files if messages are not found in templates (Useful during development, when key messages change constantly);
 
-
-####version 0.1.6
-* Fixing small bugs
+####version 0.1.4
+* [Bug] Error when template has no message;
+* [Feature] New option `transforDestFile` - Function to change the destination file name and path;

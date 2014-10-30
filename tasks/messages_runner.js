@@ -74,6 +74,7 @@ exports.run = function(grunt, options, files) {
 		var template = grunt.file.read(filepath);
 
 		var templkeys = template.match(/\[\[.+?\]\]/ig);
+
 		if (templkeys) {
 			templkeys.forEach(function(item) {
 				item = item.substring(2, item.length-2);
@@ -164,21 +165,23 @@ exports.run = function(grunt, options, files) {
 			}
 		});
 
-		// remove empty messages that are not in the key
-		var toRemove = [];
-		for (var key in msgs) {
-			if ((msgs[key] === '') && (keys.indexOf(key) === -1)) {
-				toRemove.push(key);
+		if (options.removeEmptyKeys) {
+			// remove empty messages that are not in the key
+			var toRemove = [];
+			for (var key in msgs) {
+				if ((msgs[key] === '') && (keys.indexOf(key) === -1)) {
+					toRemove.push(key);
+				}
 			}
-		}
 
-		toRemove.forEach(function(key) {
-			delete msgs[key];
-		});
+			toRemove.forEach(function(key) {
+				delete msgs[key];
+			});
 
-		// was changed ?
-		if (toRemove.length > 0) {
-			changed = true;
+			// was changed ?
+			if (toRemove.length > 0) {
+				changed = true;
+			}
 		}
 
 		return changed;

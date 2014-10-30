@@ -38,6 +38,8 @@ module.exports = function(grunt) {
 			basePath: undefined,
 			// specify the folder where json files will be generated from csv messages
 			jsonPath: undefined,
+			// if true, remove empty keys found in CSV and not found in template files
+			removeEmptyKeys: true
 		});
 
 		var files = this.files;
