@@ -39,7 +39,9 @@ module.exports = function(grunt) {
 			// specify the folder where json files will be generated from csv messages
 			jsonPath: undefined,
 			// if true, remove empty keys found in CSV and not found in template files
-			removeEmptyKeys: true
+     removeEmptyKeys: true,
+     // if false, don't escape HTML in messages
+     htmlEscape: true
 		});
 
 		var files = this.files;

@@ -132,7 +132,7 @@ exports.run = function(grunt, options, files) {
 				if ((msg === undefined) || (msg === '')) {
 					msg = key;
 				}
-				msg = commons.escapeHTML(msg);
+       msg = options.htmlEscape ? commons.escapeHTML(msg) : msg;
 				template = template.split('[[' + key + ']]').join(msg);
 			});
 		}
