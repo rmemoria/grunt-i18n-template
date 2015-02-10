@@ -216,6 +216,12 @@ Default value: `true`
 
 If true (default value), empty keys that are found in the CSV files and not found in the templates, are removed from the CSV files.
 
+#### options.htmlEscape
+Type: `boolean`
+Default value: `true`
+
+If true (default value), all messages are HTML escaped when replaced.
+
 ### Usage Examples
 
 ####Development and production mode
